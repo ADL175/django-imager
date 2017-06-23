@@ -21,11 +21,11 @@ class ImagerProfile(models.Model):
     """A profile for users to our application."""
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    location = models.CharField(max_length=255)
-    age = models.IntegerField()
-    camera_type = models.CharField(max_length=255)
-    job = models.CharField(max_length=255)
-    url = models.URLField(max_length=200)
+    location = models.CharField(max_length=255, default='')
+    age = models.IntegerField(default=18)
+    camera_type = models.CharField(max_length=255, default='Kodak')
+    job = models.CharField(max_length=255, default='')
+    url = models.URLField(max_length=200, default='')
     active = ImagerActiveManager()
 
     STYLE_CHOICES = (
@@ -44,10 +44,12 @@ class ImagerProfile(models.Model):
     SOCIAL_CHOICES = (
         ('PEASANT', 'Peasant'),
         ('BANDIT', 'Bandit'),
-        ('Yeoman', 'Yeoman'),
+        ('YEOMAN', 'Yeoman'),
         ('MANATARMS', 'Man-at-arms'),
         ('KNIGHT', 'Knight'),
         ('ROYALTY', 'Royalty'),
+        ('WIZARD', 'Wizard'),
+
     )
     social_status = models.CharField(
         max_length=255,
@@ -55,6 +57,7 @@ class ImagerProfile(models.Model):
         default='PEASANT',
     )
 
+    @property
     def is_active(self):
         """Return whether or not this profile is active."""
         return self.user.is_active
